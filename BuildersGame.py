@@ -43,12 +43,12 @@ class BuildersGame:
         and either 'x' or 'o' to indicate the player who is placing builders.
         Rows and columns will be integers in the range 0-4."""
 
-        if player == 'x' and self._turn!='o':
+        if player == 'x' and self._turn!='o' and self._xbuilder1 is None and self._xbuilder2 is None: #make sure it has not been initialized
             self._turn = 'o'
             self._xbuilder1 = str(x1) + str(y1) #storing string values suppose intial placement is 1,2 for builder 1 then xb1 is "12"
             self._xbuilder2 = str(x2) + str(y2) # similar to above
 
-        elif player == 'o' and self._turn!='x':
+        elif player == 'o' and self._turn!='x' and self._obuilder is None and self._obuilder is None:
             self._turn='x'
             str_of_builder1 = str(x1) + str(y1)
             str_of_builder2 = str(x2) + str(y2)
@@ -66,362 +66,52 @@ class BuildersGame:
         else: # if o intitialized first
 
             return False
+        return True #Don't forget return values
 
     def check_if_opponent_has_legal_move(self):
         """check if move is by the rule"""
-        count = 0 
-        if self._turn=='x':
-
-            for i in range(2):
-                if i==0:
-                    x1 = int(self._obuilder1[0])
-                    y1 = int(self._obuilder1[1])
-                elif i==1:
-                    x1 = int(self._obuilder2[0])
-                    y1 = int(self._obuilder2[1])
-
-                if x1-1 != int(self._obuilder1[0]) and y1-1 != int(self._obuilder1[1]) and x1-1>=0 and y1-1>=0 \
-                        and (self._board[x1-1][y1-1] - self._board[x1][y1])<=1:
-                    x3 = x1-1
-                    y3 = y1-1
-                    if x3-1>=0 and y3-1>=0 and self._board[x3-1][y3-1]!=4 :
-                        count+=1
-                    if x3-1>=0 and self._board[x3-1][y3]!=4 :
-                        count+=1
-                    if x3-1>=0 and y3+1<=4 and self._board[x3-1][y3+1]!=4 :
-                        count+=1
-                    if y3-1>=0 and self._board[x3][y3-1]!=4 :
-                        count+=1
-                    if  y3+1<=4 and self._board[x3][y3+1]!=4 :
-                        count+=1
-                    if y3-1>=0 and x3+1<=4 and self._board[x3+1][y3-1]!=4 :
-                        count+=1
-                    if  x3+1<=4 and self._board[x3+1][y3]!=4 :
-                        count+=1
-                    if  x3+1<=4 and y3+1<=4 and self._board[x3+1][y3+1]!=4 :
-                        count+=1
-                if x1-1 != int(self._obuilder1[0]) and y1 != int(self._obuilder1[1]) and x1-1>=0 \
-                        and (self._board[x1-1][y1] - self._board[x1][y1])<=1:
-                    x3 = x1-1
-                    y3 = y1
-                    if x3-1>=0 and y3-1>=0 and self._board[x3-1][y3-1]!=4 :
-                        count+=1
-                    if  x3-1>=0 and self._board[x3-1][y3]!=4 :
-                        count+=1
-                    if  x3-1>=0 and y3+1<=4 and self._board[x3-1][y3+1]!=4 :
-                        count+=1
-                    if  y3-1>=0 and self._board[x3][y3-1]!=4 :
-                        count+=1
-                    if y3+1<=4 and self._board[x3][y3+1]!=4 :
-                        count+=1
-                    if y3-1>=0 and x3+1<=4 and self._board[x3+1][y3-1]!=4 :
-                        count+=1
-                    if x3+1<=4 and self._board[x3+1][y3]!=4 :
-                        count+=1
-                    if x3+1<=4 and y3+1<=4 and self._board[x3+1][y3+1]!=4 :
-                        count+=1
-                if x1-1 != int(self._obuilder1[0]) and y1+11 != int(self._obuilder1[1]) and x1-1>=0 and y1+1<=4 \
-                        and (self._board[x1-1][y1+1] - self._board[x1][y1])<=1:
-                    x3 = x1-1
-                    y3 = y1+1
-                    if  x3-1>=0 and y3-1>=0 and self._board[x3-1][y3-1]!=4 :
-                        count+=1
-                    if  x3-1>=0 and self._board[x3-1][y3]!=4 :
-                        count+=1
-                    if  x3-1>=0 and y3+1<=4 and self._board[x3-1][y3+1]!=4 :
-                        count+=1
-                    if y3-1>=0 and self._board[x3][y3-1]!=4 :
-                        count+=1
-                    if y3+1<=4 and self._board[x3][y3+1]!=4 :
-                        count+=1
-                    if  y3-1>=0 and x3+1<=4 and self._board[x3+1][y3-1]!=4 :
-                        count+=1
-                    if  x3+1<=4 and self._board[x3+1][y3]!=4 :
-                        count+=1
-                    if  x3+1<=4 and y3+1<=4 and self._board[x3+1][y3+1]!=4 :
-                        count+=1
-                if x1!= int(self._obuilder1[0]) and y1-1 != int(self._obuilder1[1])  and y1-1>=0 \
-                        and (self._board[x1][y1-1] - self._board[x1][y1])<=1:
-                    x3 = x1
-                    y3 = y1-1
-                    if  x3-1>=0 and y3-1>=0 and self._board[x3-1][y3-1]!=4 :
-                        count+=1
-                    if  x3-1>=0 and self._board[x3-1][y3]!=4 :
-                        count+=1
-                    if x3-1>=0 and y3+1<=4 and self._board[x3-1][y3+1]!=4 :
-                        count+=1
-                    if  y3-1>=0 and self._board[x3][y3-1]!=4 :
-                        count+=1
-                    if y3+1<=4 and self._board[x3][y3+1]!=4 :
-                        count+=1
-                    if  y3-1>=0 and x3+1<=4 and self._board[x3+1][y3-1]!=4 :
-                        count+=1
-                    if x3+1<=4 and self._board[x3+1][y3]!=4 :
-                        count+=1
-                    if  x3+1<=4 and y3+1<=4 and self._board[x3+1][y3+1]!=4 :
-                        count+=1
-
-                if x1!= int(self._obuilder1[0]) and y1+1 != int(self._obuilder1[1])  and y1+1<=4 \
-                        and (self._board[x1][y1+1] - self._board[x1][y1])<=1:
-                    x3 = x1
-                    y3 = y1+1
-                    if x3-1>=0 and y3-1>=0 and self._board[x3-1][y3-1]!=4 :
-                        count+=1
-                    if  x3-1>=0 and self._board[x3-1][y3]!=4 :
-                        count+=1
-                    if  x3-1>=0 and y3+1<=4 and self._board[x3-1][y3+1]!=4 :
-                        count+=1
-                    if  y3-1>=0 and self._board[x3][y3-1]!=4 :
-                        count+=1
-                    if  y3+1<=4 and self._board[x3][y3+1]!=4 :
-                        count+=1
-                    if y3-1>=0 and x3+1<=4 and self._board[x3+1][y3-1]!=4 :
-                        count+=1
-                    if  x3+1<=4 and self._board[x3+1][y3]!=4 :
-                        count+=1
-                    if x3+1<=4 and y3+1<=4 and self._board[x3+1][y3+1]!=4 :
-                        count+=1
-                if x1+1!= int(self._obuilder1[0]) and y1-1 != int(self._obuilder1[1]) and x1+1<=4 and y1-1>=0 \
-                        and (self._board[x1+1][y1-1] - self._board[x1][y1])<=1:
-                    x3 = x1+1
-                    y3 = y1-1
-                    if  x3-1>=0 and y3-1>=0 and self._board[x3-1][y3-1]!=4 :
-                        count+=1
-                    if x3-1>=0 and  self._board[x3-1][y3]!=4 :
-                        count+=1
-                    if  x3-1>=0 and y3+1<=4 and self._board[x3-1][y3+1]!=4 :
-                        count+=1
-                    if  y3-1>=0 and self._board[x3][y3-1]!=4 :
-                        count+=1
-                    if  y3+1<=4 and self._board[x3][y3+1]!=4 :
-                        count+=1
-                    if  y3-1>=0 and x3+1<=4 and self._board[x3+1][y3-1]!=4 :
-                        count+=1
-                    if  x3+1<=4 and self._board[x3+1][y3]!=4 :
-                        count+=1
-                    if  x3+1<=4 and y3+1<=4 and self._board[x3+1][y3+1]!=4 :
-                        count+=1
-                if x1 + 1 != int(self._obuilder1[0]) and y1 != int(self._obuilder1[1]) and x1 + 1 <= 4 \
-                        and (self._board[x1 + 1][y1] - self._board[x1][y1]) <= 1:
-                    x3 = x1 + 1
-                    y3 = y1
-                    if  x3 - 1 >= 0 and y3 - 1 >= 0 and self._board[x3 - 1][y3 - 1] != 4 :
-                        count += 1
-                    if  x3 - 1 >= 0 and self._board[x3 - 1][y3] != 4 :
-                        count += 1
-                    if  x3 - 1 >= 0 and y3 + 1 <= 4 and self._board[x3 - 1][y3 + 1] != 4 :
-                        count += 1
-                    if  y3 - 1 >= 0 and self._board[x3][y3 - 1] != 4 :
-                        count += 1
-                    if   y3 + 1 <= 4 and self._board[x3][y3 + 1] != 4 :
-                        count += 1
-                    if y3 - 1 >= 0 and x3 + 1 <= 4 and self._board[x3 + 1][y3 - 1] != 4 :
-                        count += 1
-                    if  x3 + 1 <= 4 and self._board[x3 + 1][y3] != 4 :
-                        count += 1
-                    if  x3 + 1 <= 4 and y3 + 1 <= 4 and self._board[x3 + 1][y3 + 1] != 4 :
-                        count += 1
-                if x1 + 1 != int(self._obuilder1[0]) and y1 + 1 != int(self._obuilder1[1]) and x1 + 1 <= 4 and y1 + 1 <= 4 \
-                        and (self._board[x1 + 1][y1 + 1] - self._board[x1][y1]) <= 1:
-                    x3 = x1 + 1
-                    y3 = y1 + 1
-                    if x3 - 1 >= 0 and y3 - 1 >= 0 and self._board[x3 - 1][y3 - 1] != 4 :
-                        count += 1
-                    if x3 - 1 >= 0 and self._board[x3 - 1][y3] != 4 :
-                        count += 1
-                    if x3 - 1 >= 0 and y3 + 1 <= 4 and self._board[x3 - 1][y3 + 1] != 4 :
-                        count += 1
-                    if y3 - 1 >= 0 and self._board[x3][y3 - 1] != 4 :
-                        count += 1
-                    if y3 + 1 <= 4 and self._board[x3][y3 + 1] != 4 :
-                        count += 1
-                    if y3 - 1 >= 0 and x3 + 1 <= 4 and self._board[x3 + 1][y3 - 1] != 4 :
-                        count += 1
-                    if x3 + 1 <= 4 and self._board[x3 + 1][y3] != 4 :
-                        count += 1
-                    if x3 + 1 <= 4 and y3 + 1 <= 4 and self._board[x3 + 1][y3 + 1] != 4 :
-                        count += 1
-        elif self._turn=='o':
-
-            for i in range(2):
-                if i==0:
-                    x1 = int(self._xbuilder1[0])
-                    y1 = int(self._xbuilder1[1])
-                elif i==1:
-                    x1 = int(self._xbuilder2[0])
-                    y1 = int(self._xbuilder2[1])
-
-                if x1-1 != int(self._obuilder1[0]) and y1-1 != int(self._obuilder1[1]) and x1-1>=0 and y1-1>=0 \
-                        and (self._board[x1-1][y1-1] - self._board[x1][y1])<=1:
-                    x3 = x1-1
-                    y3 = y1-1
-                    if x3-1>=0 and y3-1>=0 and self._board[x3-1][y3-1]!=4 :
-                        count+=1
-                    if x3-1>=0 and self._board[x3-1][y3]!=4 :
-                        count+=1
-                    if x3-1>=0 and y3+1<=4 and self._board[x3-1][y3+1]!=4 :
-                        count+=1
-                    if y3-1>=0 and self._board[x3][y3-1]!=4 :
-                        count+=1
-                    if  y3+1<=4 and self._board[x3][y3+1]!=4 :
-                        count+=1
-                    if y3-1>=0 and x3+1<=4 and self._board[x3+1][y3-1]!=4 :
-                        count+=1
-                    if  x3+1<=4 and self._board[x3+1][y3]!=4 :
-                        count+=1
-                    if  x3+1<=4 and y3+1<=4 and self._board[x3+1][y3+1]!=4 :
-                        count+=1
-                if x1-1 != int(self._obuilder1[0]) and y1 != int(self._obuilder1[1]) and x1-1>=0 \
-                        and (self._board[x1-1][y1] - self._board[x1][y1])<=1:
-                    x3 = x1-1
-                    y3 = y1
-                    if x3-1>=0 and y3-1>=0 and self._board[x3-1][y3-1]!=4 :
-                        count+=1
-                    if  x3-1>=0 and self._board[x3-1][y3]!=4 :
-                        count+=1
-                    if  x3-1>=0 and y3+1<=4 and self._board[x3-1][y3+1]!=4 :
-                        count+=1
-                    if  y3-1>=0 and self._board[x3][y3-1]!=4 :
-                        count+=1
-                    if y3+1<=4 and self._board[x3][y3+1]!=4 :
-                        count+=1
-                    if y3-1>=0 and x3+1<=4 and self._board[x3+1][y3-1]!=4 :
-                        count+=1
-                    if x3+1<=4 and self._board[x3+1][y3]!=4 :
-                        count+=1
-                    if x3+1<=4 and y3+1<=4 and self._board[x3+1][y3+1]!=4 :
-                        count+=1
-                if x1-1 != int(self._obuilder1[0]) and y1+11 != int(self._obuilder1[1]) and x1-1>=0 and y1+1<=4 \
-                        and (self._board[x1-1][y1+1] - self._board[x1][y1])<=1:
-                    x3 = x1-1
-                    y3 = y1+1
-                    if  x3-1>=0 and y3-1>=0 and self._board[x3-1][y3-1]!=4 :
-                        count+=1
-                    if  x3-1>=0 and self._board[x3-1][y3]!=4 :
-                        count+=1
-                    if  x3-1>=0 and y3+1<=4 and self._board[x3-1][y3+1]!=4 :
-                        count+=1
-                    if y3-1>=0 and self._board[x3][y3-1]!=4 :
-                        count+=1
-                    if y3+1<=4 and self._board[x3][y3+1]!=4 :
-                        count+=1
-                    if  y3-1>=0 and x3+1<=4 and self._board[x3+1][y3-1]!=4 :
-                        count+=1
-                    if  x3+1<=4 and self._board[x3+1][y3]!=4 :
-                        count+=1
-                    if  x3+1<=4 and y3+1<=4 and self._board[x3+1][y3+1]!=4 :
-                        count+=1
-                if x1!= int(self._obuilder1[0]) and y1-1 != int(self._obuilder1[1])  and y1-1>=0 \
-                        and (self._board[x1][y1-1] - self._board[x1][y1])<=1:
-                    x3 = x1
-                    y3 = y1-1
-                    if  x3-1>=0 and y3-1>=0 and self._board[x3-1][y3-1]!=4 :
-                        count+=1
-                    if  x3-1>=0 and self._board[x3-1][y3]!=4 :
-                        count+=1
-                    if x3-1>=0 and y3+1<=4 and self._board[x3-1][y3+1]!=4 :
-                        count+=1
-                    if  y3-1>=0 and self._board[x3][y3-1]!=4 :
-                        count+=1
-                    if y3+1<=4 and self._board[x3][y3+1]!=4 :
-                        count+=1
-                    if  y3-1>=0 and x3+1<=4 and self._board[x3+1][y3-1]!=4 :
-                        count+=1
-                    if x3+1<=4 and self._board[x3+1][y3]!=4 :
-                        count+=1
-                    if  x3+1<=4 and y3+1<=4 and self._board[x3+1][y3+1]!=4 :
-                        count+=1
-
-                if x1!= int(self._obuilder1[0]) and y1+1 != int(self._obuilder1[1])  and y1+1<=4 \
-                        and (self._board[x1][y1+1] - self._board[x1][y1])<=1:
-                    x3 = x1
-                    y3 = y1+1
-                    if x3-1>=0 and y3-1>=0 and self._board[x3-1][y3-1]!=4 :
-                        count+=1
-                    if  x3-1>=0 and self._board[x3-1][y3]!=4 :
-                        count+=1
-                    if  x3-1>=0 and y3+1<=4 and self._board[x3-1][y3+1]!=4 :
-                        count+=1
-                    if  y3-1>=0 and self._board[x3][y3-1]!=4 :
-                        count+=1
-                    if  y3+1<=4 and self._board[x3][y3+1]!=4 :
-                        count+=1
-                    if y3-1>=0 and x3+1<=4 and self._board[x3+1][y3-1]!=4 :
-                        count+=1
-                    if  x3+1<=4 and self._board[x3+1][y3]!=4 :
-                        count+=1
-                    if x3+1<=4 and y3+1<=4 and self._board[x3+1][y3+1]!=4 :
-                        count+=1
-                if x1+1!= int(self._obuilder1[0]) and y1-1 != int(self._obuilder1[1]) and x1+1<=4 and y1-1>=0 \
-                        and (self._board[x1+1][y1-1] - self._board[x1][y1])<=1:
-                    x3 = x1+1
-                    y3 = y1-1
-                    if  x3-1>=0 and y3-1>=0 and self._board[x3-1][y3-1]!=4 :
-                        count+=1
-                    if x3-1>=0 and  self._board[x3-1][y3]!=4 :
-                        count+=1
-                    if  x3-1>=0 and y3+1<=4 and self._board[x3-1][y3+1]!=4 :
-                        count+=1
-                    if  y3-1>=0 and self._board[x3][y3-1]!=4 :
-                        count+=1
-                    if  y3+1<=4 and self._board[x3][y3+1]!=4 :
-                        count+=1
-                    if  y3-1>=0 and x3+1<=4 and self._board[x3+1][y3-1]!=4 :
-                        count+=1
-                    if  x3+1<=4 and self._board[x3+1][y3]!=4 :
-                        count+=1
-                    if  x3+1<=4 and y3+1<=4 and self._board[x3+1][y3+1]!=4 :
-                        count+=1
-                if x1 + 1 != int(self._obuilder1[0]) and y1 != int(self._obuilder1[1]) and x1 + 1 <= 4 \
-                        and (self._board[x1 + 1][y1] - self._board[x1][y1]) <= 1:
-                    x3 = x1 + 1
-                    y3 = y1
-                    if  x3 - 1 >= 0 and y3 - 1 >= 0 and self._board[x3 - 1][y3 - 1] != 4 :
-                        count += 1
-                    if  x3 - 1 >= 0 and self._board[x3 - 1][y3] != 4 :
-                        count += 1
-                    if  x3 - 1 >= 0 and y3 + 1 <= 4 and self._board[x3 - 1][y3 + 1] != 4 :
-                        count += 1
-                    if  y3 - 1 >= 0 and self._board[x3][y3 - 1] != 4 :
-                        count += 1
-                    if   y3 + 1 <= 4 and self._board[x3][y3 + 1] != 4 :
-                        count += 1
-                    if y3 - 1 >= 0 and x3 + 1 <= 4 and self._board[x3 + 1][y3 - 1] != 4 :
-                        count += 1
-                    if  x3 + 1 <= 4 and self._board[x3 + 1][y3] != 4 :
-                        count += 1
-                    if  x3 + 1 <= 4 and y3 + 1 <= 4 and self._board[x3 + 1][y3 + 1] != 4 :
-                        count += 1
-                if x1 + 1 != int(self._obuilder1[0]) and y1 + 1 != int(self._obuilder1[1]) and x1 + 1 <= 4 and y1 + 1 <= 4 \
-                        and (self._board[x1 + 1][y1 + 1] - self._board[x1][y1]) <= 1:
-                    x3 = x1 + 1
-                    y3 = y1 + 1
-                    if x3 - 1 >= 0 and y3 - 1 >= 0 and self._board[x3 - 1][y3 - 1] != 4 :
-                        count += 1
-                    if x3 - 1 >= 0 and self._board[x3 - 1][y3] != 4 :
-                        count += 1
-                    if x3 - 1 >= 0 and y3 + 1 <= 4 and self._board[x3 - 1][y3 + 1] != 4 :
-                        count += 1
-                    if y3 - 1 >= 0 and self._board[x3][y3 - 1] != 4 :
-                        count += 1
-                    if y3 + 1 <= 4 and self._board[x3][y3 + 1] != 4 :
-                        count += 1
-                    if y3 - 1 >= 0 and x3 + 1 <= 4 and self._board[x3 + 1][y3 - 1] != 4 :
-                        count += 1
-                    if x3 + 1 <= 4 and self._board[x3 + 1][y3] != 4 :
-                        count += 1
-                    if x3 + 1 <= 4 and y3 + 1 <= 4 and self._board[x3 + 1][y3 + 1] != 4 :
-                        count += 1
-
-
-        if count==0:
-            return False
+        if self._turn == 'x':
+            x1 = int(self._obuilder1[0])
+            y1 = int(self._obuilder1[1])
+            x2 = int(self._obuilder2[0])
+            y2 = int(self._obuilder2(1))
+            return check(x1,y1) or check(x2,y2)
         else:
-            return True
+            x1 = int(self._xbuilder1[0])
+            y1 = int(self._xbuilder1[1])
+            x2 = int(self._xbuilder2[0])
+            y2 = int(self._xbuilder2(1))
+            return check(x1,y1) or check(x2,y2)
+        
+    def check(self,x,y):
+        level = self._board[x][y]
+        if boundary_check(x-1,y-1) and self._board[x-1][y-1]-level<=1
+          return True
+        if boundary_check(x-1,y) and self._board[x-1][y]-level<=1
+          return True
+        if boundary_check(x-1,y+1) and self._board[x-1][y+1]-level<=1
+          return True
+        if boundary_check(x,y-1) and self._board[x][y-1]-level<=1
+          return True
+        if boundary_check(x,y+1) and self._board[x][y+1]-level<=1
+          return True
+        if boundary_check(x+1,y-1) and self._board[x+1][y-1]-level<=1
+          return True
+        if boundary_check(x+1,y) and self._board[x+1][y]-level<=1
+          return True
+        if boundary_check(x+1,y+1) and self._board[x+1][y+1]-level<=1
+          return True
+        return False
 
+    def boundary_check(x,y):
+        if x<0 or x>4 or y<0 or y>4:
+            return False
+        else
+            return True
+    
     def make_move(self,x1,y1,x2,y2,x3,y3):
         """if make move called before initial placement"""
-        if self._xbuilder1==None or self._xbuilder2==None or self._obuilder1==None or self._obuilder2==None:
+        if self._xbuilder1 is None or self._xbuilder2 is None or self._obuilder1 is None or self._obuilder2 is None:# should use is None in Python maybe? Need to check
             return  False
         if self._current_state=='X_WON' or self._current_state=='O_WON':
             return  False
@@ -429,65 +119,34 @@ class BuildersGame:
         str_destination = str(x2)+str(y2)
         str_level = str(x3) + str(y3)
         if self._count%2==0 and self._turn=='x':
-            if str_builder==self._obuilder1 or str_builder==self._obuilder2 or (str_builder!=self._xbuilder1 and str_builder!=self._xbuilder2):
+            if str_builder!=self._xbuilder1 and str_builder!=self._xbuilder2:
                 return  False
             if str_destination==self._xbuilder1 or str_destination == self._xbuilder2 or str_destination == self._obuilder1 or str_destination==self._obuilder2:
                 return  False
-            if self._is_adjacent(x1,y1,x2,y2) == False:
+            if not self._is_adjacent(x1,y1,x2,y2):#Maybe in python, we should use it in this way instead of ==False ? Need to check
                 return False
             if  self._board[x2][y2] - self._board[x1][y1]>=2:
                 return False
-            if self._is_adjacent(x2,y2,x3,y3) == False:
-                return  False
+            if not self._is_adjacent(x2,y2,x3,y3):#Need to check
+                return  Falss
 
+            
             if str_builder == self._xbuilder1:
                 self._xbuilder1 = str_destination
-                if str_level==self._obuilder1 or str_level==self._obuilder2 or str_level==self._xbuilder2 or str_level==self._xbuilder1:
-                    self._xbuilder1=str_builder
-                    return False
-                if self._board[x3][y3]==4:
-                    return False
-
-                else:
-                    if self._board[x2][y2]==3 or self.check_if_opponent_has_legal_move()==False:
-                        self._current_state = 'X_WON'
-                        self._board[x3][y3]+=1
-                        self._turn='o'
-                        self._count+=1
-                        return  True
-                    if self._board[x2][y2]!=3:
-                        self._board[x3][y3]+=1
-                        self._turn='o'
-                        self._count+=1
-                        return True
-
-
-
-
             elif str_builder == self._xbuilder2:
                 self._xbuilder2 = str_destination
-                if str_level==self._xbuilder1 or str_level==self._xbuilder2 or str_level==self._obuilder1 or str_level==self._obuilder2:
-                    self._xbuilder2 = str_builder
-                    return  False
-                if self._board[x3][y3]==4:
-                    return False
 
-                else:
-                    if self._board[x2][y2]==3 or self.check_if_opponent_has_legal_move()==False:
-                        self._current_state = 'X_WON'
-                        self._board[x3][y3]+=1
-                        self._turn='o'
-                        self._count+=1
-                        return  True
-                    if self._board[x2][y2]!=3:
-                        self._board[x3][y3]+=1
-                        self._turn='o'
-                        self._count+=1
-                        return True
-
+            self._board[x3][y3] += 1 #add 1 level at str_level
+            if self._board[x3][y3]==4 or not self.check_if_opponent_has_legal_move():
+               self._current_state = 'X_WON'
+               return False
+            else:
+               self._turn='o'
+               self._count+=1
+               return  True
+        
         elif self._count % 2 != 0 and self._turn == 'o':
-            if str_builder == self._xbuilder1 or str_builder == self._xbuilder2 or (
-                    str_builder != self._obuilder1 and str_builder != self._obuilder2):
+            if str_builder != self._obuilder1 and str_builder != self._obuilder2:
                 return False
             if str_destination == self._xbuilder1 or str_destination == self._xbuilder2 or str_destination == self._obuilder1 or str_destination == self._obuilder2:
                 return False
@@ -499,50 +158,17 @@ class BuildersGame:
                 return False
 
             if str_builder == self._obuilder1:
-                self._obuilder1 = str_destination
-                if str_level == self._obuilder1 or str_level == self._obuilder2 or str_level == self._xbuilder2 or str_level == self._xbuilder1:
-                    self._obuilder1 = str_builder
-                    return False
-                if self._board[x3][y3] == 4:
-                    return False
-
-                else:
-                    if self._board[x2][y2] == 3 or self.check_if_opponent_has_legal_move() == False:
-                        self._current_state = 'O_WON'
-                        self._board[x3][y3] += 1
-                        self._turn = 'x'
-                        self._count += 1
-                        return True
-                    if self._board[x2][y2] != 3:
-                        self._board[x3][y3] += 1
-                        self._turn = 'x'
-                        self._count += 1
-                        return True
-
-
-
-
-            elif str_builder == self._obuilder2:
-                self._obuilder2 = str_destination
-                if str_level == self._xbuilder1 or str_level == self._xbuilder2 or str_level == self._obuilder1 or str_level == self._obuilder2:
-                    self._obuilder2 = str_builder
-                    return False
-                if self._board[x3][y3] == 4:
-                    return False
-
-                else:
-                    if self._board[x2][y2] == 3 or self.check_if_opponent_has_legal_move() == False:
-                        self._current_state = 'O_WON'
-                        self._board[x3][y3] += 1
-                        self._turn = 'x'
-                        self._count += 1
-                        return True
-                    if self._board[x2][y2] != 3:
-                        self._board[x3][y3] += 1
-                        self._turn = 'x'
-                        self._count += 1
-                        return True
-
+               self._obuilder1 = str_destination
+            elseif str_builder == self._obuilder2:
+               self._obuilder2 = str_destination
+            self._board[x3][y3]+=1
+            if self._board[x3][y3]==4 or not self.check_if_opponent_has_legal_move():
+               self._current_state = 'O_WON'
+               return False
+            else:
+               self._turn='x'
+               self._count+=1
+               return  True
 
         else:
             return  False
